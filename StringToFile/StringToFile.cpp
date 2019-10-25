@@ -7,16 +7,6 @@
 
 using namespace std;
 
-class txtObj
-{
-public:
-	string textData;
-
-	txtObj()
-	{
-
-	}
-};
 
 
 class someStream {
@@ -98,22 +88,22 @@ public:
 		string fullPath = filePath + fileName;
 
 
-
-		txtObj texter;
-
+		//clears text before loading
+		text = "";
 
 		//creates new read object
 		ifstream readObj;
 		//opens file in input mode
 		readObj.open(fullPath, ios::in);
-		//reads in each line to the text string variable
-		string subText;
-		readObj.read((char*)&texter, sizeof(texter));
-		//sets text to the read objects
-		text += texter.textData + "\n";
+		//reads in data
+		while (!readObj.eof())
+		{
+			string subText;
+			getline(readObj, subText);
+			text += subText + "\n";
+		}
 		//close read object
 		readObj.close();
-
 
 
 		//PRINT INPUT
@@ -121,8 +111,6 @@ public:
 		//HERE TO WRITE LINE FOR LINE
 		//CURRENTLY JUST EXPORTING TEXT TO SCREEN.
 		cout << text << endl << endl;
-
-		
 	}
 
 
@@ -139,18 +127,13 @@ public:
 		string fullPath = filePath + fileName;
 
 
-		txtObj texter;
-		texter.textData = text;
-
 
 		//creates new write object
 		ofstream writeObj;
 		//opens file in output mode
 		writeObj.open(fullPath, ios::out);
-		//write the object in the format of (Block of memory, size of memory)
-		//the (char*)&texter get the pointer to the objects place in the stack
-		//the sizeof(texter) gets the size of memory needed for MALLOC
-		writeObj.write((char*)&texter, sizeof(texter));
+		//write text to file
+		writeObj << text;
 		//close write object
 		writeObj.close();
 
